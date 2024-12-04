@@ -98,6 +98,7 @@ public:
     void setWindowFocus(Time timestamp = CurrentTime);
 
     bool fetchTitle(char** title);
+    char* fetchClientMachine();
     void setTitle(char const * title);
     void setClassHint(char const * rName, char const * rClass);
 

@@ -5,6 +5,7 @@
 #include "ywindow.h"
 #include "ycursor.h"
 #include <X11/Xutil.h>
+#include <unistd.h>
 
 #define KEY_MODMASK(x) ((x) & (xapp->KeyMask))
 
@@ -101,6 +102,16 @@ class YXApplication: public YApplication {
 public:
     YXApplication(int *argc, char ***argv, const char *displayName = nullptr);
     virtual ~YXApplication();
+
+    char localHostname[256] = {};
+    char * getLocalHostname() {
+        if (localHostname[0] == 0) {
+            gethostname(localHostname, sizeof(localHostname));
+        }
+
+        return localHostname;
+    }
+
 
     Display * display()   const { return fDisplay; }
     int screen()          const { return fScreen; }

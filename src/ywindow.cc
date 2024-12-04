@@ -196,6 +196,18 @@ bool YWindow::fetchTitle(char** title) {
     return XFetchName(xapp->display(), handle(), title);
 }
 
+char* YWindow::fetchClientMachine() {
+    XTextProperty prop;
+    int ret = XGetTextProperty(xapp->display(), handle(), &prop, XA_WM_CLIENT_MACHINE);
+    if (ret) {
+        char *retval = (char *)malloc(sizeof(char)*prop.nitems + 1);
+        strncpy(retval, (const char *)prop.value, prop.nitems + 1);
+        XFree(prop.value);
+        return retval;
+    }
+        return nullptr;
+}
+
 void YWindow::setClassHint(char const * rName, char const * rClass) {
     XClassHint wmclass;
     wmclass.res_name = const_cast<char *>(rName);

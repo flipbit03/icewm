@@ -526,6 +526,11 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
     }
 
     mstring title = getFrame()->getTitle();
+    char *client_machine = getFrame()->client()->fetchClientMachine();
+    if (strncmp(client_machine, xapp->getLocalHostname(), strlen(client_machine)) != 0)
+        title = title + "  (on " + client_machine + ")";
+    free(client_machine);
+
     int const fontHeight = titleFont ? titleFont->height() : 8;
     int const fontAscent = titleFont ? titleFont->ascent() : 6;
     int const yPos(int(height() - fontHeight) / 2 +
